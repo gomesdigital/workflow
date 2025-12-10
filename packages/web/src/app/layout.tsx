@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { connection } from 'next/server';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { ServerConfigProvider } from '@/lib/config';
+import { getServerConfig } from '@/lib/server-config';
 import { LayoutClient } from './layout-client';
 
 const geistSans = Geist({
@@ -30,13 +32,18 @@ export default async function RootLayout({
   // and move the config/search params code to server-compatible pattern
   await connection();
 
+  // Read server-side environment variables for self-hosted deployments
+  const serverConfig = getServerConfig();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NuqsAdapter>
-          <LayoutClient>{children}</LayoutClient>
+          <ServerConfigProvider config={serverConfig}>
+            <LayoutClient>{children}</LayoutClient>
+          </ServerConfigProvider>
         </NuqsAdapter>
       </body>
     </html>
