@@ -294,19 +294,6 @@ export function SettingsSidebar({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="authToken">Auth Token</Label>
-                      <Input
-                        id="authToken"
-                        type="password"
-                        value={localConfig.authToken || ''}
-                        onChange={(e) =>
-                          handleInputChange('authToken', e.target.value)
-                        }
-                        placeholder="Vercel auth token"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
                       <Label htmlFor="project">Project ID</Label>
                       <Input
                         id="project"
@@ -329,6 +316,17 @@ export function SettingsSidebar({
                         placeholder="team_..."
                       />
                     </div>
+
+                    <Alert className="!bg-muted/50">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-xs">
+                        Auth token must be set via{' '}
+                        <code className="bg-muted px-1 py-0.5 rounded text-[10px]">
+                          WORKFLOW_VERCEL_AUTH_TOKEN
+                        </code>{' '}
+                        environment variable for security.
+                      </AlertDescription>
+                    </Alert>
                   </>
                 )}
 
